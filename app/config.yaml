@@ -1,1 +1,2 @@
 site_name: "Link Shorter"
+database_uri: "postgres://ayfqhkfvrhvtdj:b3f253c39e7ada61251adaf9f94bda237f239c1041578155f6b21fd847e3c92f@ec2-54-75-249-16.eu-west-1.compute.amazonaws.com:5432/d1de8valuhgffm"
