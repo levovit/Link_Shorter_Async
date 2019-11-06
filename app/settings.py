@@ -9,7 +9,7 @@ def load_config(config_file=None):
 
     config_dict = {}
     if config_file:
-        config_dict = yaml.load(config_file)
+        config_dict = yaml.safe_load(config_file)
     config.update(**config_dict)
 
     return config

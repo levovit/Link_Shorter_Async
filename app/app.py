@@ -23,10 +23,10 @@ async def create_app(config: dict):
 
 async def on_start(app):
     config = app["config"]
-    ctx = ssl.create_default_context(cafile=BASE_DIR / "rds-ca-2019-eu-north-1.pem")
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-    app["db"] = await asyncpgsa.create_pool(dsn=config["database_uri"], ssl=ctx)
+    # ctx = ssl.create_default_context(cafile=BASE_DIR / "rds-ca-2019-eu-north-1.pem")
+    # ctx.check_hostname = False
+    # ctx.verify_mode = ssl.CERT_NONE
+    app["db"] = await asyncpgsa.create_pool(dsn=config["database_uri"])  # , ssl=ctx)
 
 
 async def on_cleanup(app):
