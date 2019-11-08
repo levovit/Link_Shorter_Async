@@ -16,5 +16,5 @@ def convert_base(num, to_base=10, from_base=10) -> str:
 
 
 def make_link(host: str) -> str:
-    random_number = randint(1, 1_000_000)  # 1 million unique links
+    random_number = randint(1, 1_000_000_000)  # 1 billion unique links
     return host + "/" + convert_base(random_number, 35)

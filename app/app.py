@@ -12,6 +12,7 @@ BASE_DIR = pathlib.Path(__file__).parent.parent
 
 async def create_app(config: dict):
     app = web.Application()
+    # app['static_root_url'] = ""
     app["config"] = config
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(BASE_DIR / 'app' / 'templates')))
 
