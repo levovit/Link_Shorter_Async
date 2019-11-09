@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from random import randint
 from aiohttp import web
 from aiohttp.web_request import Request
@@ -9,12 +10,8 @@ from . utils import make_unique_link
 
 @template("index.html")
 async def index(request: Request):
-    shorted_link = await make_unique_link(request)
     site_name = request.app["config"].get("site_name")
-    return {"a": randint(1, 100),
-            "b": randint(1, 100),
-            "site_name": site_name,
-            "shorted_link": shorted_link}
+    return {"site_name": site_name}
 
 
 async def short(request: Request):
@@ -27,12 +24,24 @@ async def short(request: Request):
                                 "message": "Data has no 'url' attribute"
                               }
                             }, status=415)
+    days = 90
+    if "days" in data:
+        days = data["days"]
+        if not days.isdecimal():
+            return web.json_response({
+                "error": {
+                    "code": 400,
+                    "message": "Invalid days number. Must be Integer"
+                }
+            }, status=400)
+        else:
+            days = int(days)
 
     url_regex = UrlRegex(data["url"])
     if url_regex.detect:
         print(url_regex.input)
         short_link = await make_unique_link(request)
-        await db.insert_link(request, str(url_regex.input), short_link)
+        await db.insert_link(request, str(url_regex.input), short_link, days)
         return web.json_response({"url": short_link})
     else:
         return web.json_response({
@@ -50,7 +59,20 @@ async def links(request: Request):
 
 async def api(request: Request):
     print(request.query)
-    query = request.query
+    query = {k: v for k, v in request.query.items()}
+
+    days = query.pop("days", "90")
+    if not days.isdecimal():
+        return web.json_response({
+            "error": {
+                "code": 400,
+                "message": "Invalid days number. Must be Integer"
+            }
+        }, status=400)
+    else:
+        days = int(days)
+    active_until = datetime.utcnow() + timedelta(days)
+
     if not query:
         return web.json_response({
             "error": {
@@ -67,15 +89,37 @@ async def api(request: Request):
         if url_regex.detect:
             print(url_regex.input)
             short_link = await make_unique_link(request)
-            await db.insert_link(request, str(url_regex.input), short_link)
+            await db.insert_link(request, str(url_regex.input), short_link, days)
             result["links"].append(short_link)
         else:
             result["links"].append(None)
+
     if any(result["links"]):
         result["code"] = 200
-        result["message"] = f"You enter {i} links and {len(list(filter(bool, result['links'])))} of them is valid"
+        result["message"] = f"You enter {i+1} links and {len(list(filter(bool, result['links'])))} of them is valid"
+
     return web.json_response({
             "code": result["code"],
             "message": result["message"],
-            "links": result["links"]
+            "links": result["links"],
+            "active_until": str(active_until)
     }, status=result["code"])
+
+
+@template("404.html")
+async def redirect(request: Request):
+    site_name = request.app["config"].get("site_name")
+    short_link = request.host + "/" + request.match_info['short_link']
+
+    query = await db.get_link(request, short_link)
+    if not query:
+        return {"site_name": site_name, "reason": f"Link - {short_link}  dont exist"}
+
+    query = query[0]
+    long_link = query[0]
+    active_until = query[1]
+
+    if datetime.utcnow() > active_until:
+        return {"site_name": site_name, "reason": f"link - {short_link} expired"}
+
+    return web.HTTPFound(location=long_link)

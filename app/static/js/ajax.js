@@ -2,10 +2,13 @@
 
  $(function() {
      $('#submitButton').click(function() {
+         const url = $("#url").val();
+         let days = $("#days").val();
+         days = days ? days : "90";
          $.ajax({
              type: "POST",
              url: "/short",
-             data: JSON.stringify({'url' : $('#url').val()}),
+             data: JSON.stringify({"url" : url, "days": days,}),
              success: returnSuccess,
              error: returnError,
              dataType: "json",
