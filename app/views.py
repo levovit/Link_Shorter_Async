@@ -41,7 +41,7 @@ async def short(request: Request):
     if url_regex.detect:
         print(url_regex.input)
         short_link = await make_unique_link(request)
-        await db.insert_link(request, str(url_regex.input), short_link, days)
+        await db.insert_link(request, str(url_regex.input), short_link, days, "web")
         return web.json_response({"url": short_link})
     else:
         return web.json_response({
@@ -89,7 +89,7 @@ async def api(request: Request):
         if url_regex.detect:
             print(url_regex.input)
             short_link = await make_unique_link(request)
-            await db.insert_link(request, str(url_regex.input), short_link, days)
+            await db.insert_link(request, str(url_regex.input), short_link, days, "api")
             result["links"].append(short_link)
         else:
             result["links"].append(None)

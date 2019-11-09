@@ -1,0 +1,1 @@
+web: psql -d link_shorter -f init.sql; python entry.py --host 0.0.0.0 --port $PORT
