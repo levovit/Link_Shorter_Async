@@ -16,11 +16,12 @@ parser = argparse.ArgumentParser(description="aiohttp")
 parser.add_argument("--host", help="Host to listen", default="0.0.0.0")
 parser.add_argument("--port", help="Port to accept connection", default="8080")
 parser.add_argument("--debug", action="store_true", help="Autoreload code on change")
-parser.add_argument("-c", "--config", type=argparse.FileType('r'), help="Path to configuration file")
+parser.add_argument("--db", help="Path to database")
+parser.add_argument("-c", "--config", type=argparse.FileType(), help="Path to configuration file")
 
 args = parser.parse_args()
 
-app = create_app(config=load_config(args.config))
+app = create_app(config=load_config(args.config), db_url = args.db)
 
 if args.debug:
     print("Debug mode activated")

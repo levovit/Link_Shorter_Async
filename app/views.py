@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from random import randint
 from aiohttp import web
 from aiohttp.web_request import Request
 from aiohttp_jinja2 import template
@@ -50,11 +49,6 @@ async def short(request: Request):
                                 "message": "Invalid URL"
                               }
                             }, status=400)
-
-
-async def links(request: Request):
-    result = await db.select_all(request)
-    return web.Response(body=str(result))
 
 
 async def api(request: Request):

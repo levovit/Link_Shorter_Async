@@ -6,7 +6,7 @@ create table links
 	long_link text,
 	short_link text,
 	user_name text default 'anon'::text,
-	active_until timestamp default (CURRENT_TIMESTAMP + '90 days'::interval),
+	active_until timestamp default (CURRENT_TIMESTAMP + '90 days'::interval)
 );
 
 alter table links owner to postgres;
