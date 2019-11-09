@@ -35,6 +35,13 @@ async def short(request: Request):
             }, status=400)
         else:
             days = int(days)
+    if not (1 <= days <= 366):
+        return web.json_response({
+            "error": {
+                "code": 400,
+                "message": "Expiration date must be more than 1 day and less then year"
+            }
+        }, status=400)
 
     url_regex = UrlRegex(data["url"])
     if url_regex.detect:
@@ -66,6 +73,14 @@ async def api(request: Request):
     else:
         days = int(days)
     active_until = datetime.utcnow() + timedelta(days)
+
+    if not (1 <= days <= 366):
+        return web.json_response({
+            "error": {
+                "code": 400,
+                "message": "Expiration date must be more than 1 day and less then year"
+            }
+        }, status=400)
 
     if not query:
         return web.json_response({
