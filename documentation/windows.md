@@ -38,11 +38,11 @@ run shell
 ```
 Create database 
 ```commandline
->CREATE DATABASE link_shorter_db;
+postgres=# CREATE DATABASE link_shorter_db;
 ```
 Create table links
 ```commandline
->cd <Link Shorter Path>
+>cd <Link Shorter repository path>
 >psql -d link_shorter_local -f init.sql -U postgres
 ```
 ## Run
@@ -57,5 +57,5 @@ Create table links
 `--debug` - Autoreload code on change
 
 ```commandline
-python entry.py -c local.yaml --db "postgresql://postgres:postgres@localhost:5432/link_shorter_db"
+>python entry.py -c local.yaml --db "postgresql://user:passwords@localhost:5432/link_shorter_db"
 ```

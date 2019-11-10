@@ -13,6 +13,3 @@ alter table links owner to postgres;
 
 create unique index links_id_uindex
 	on links (id);
-
-INSERT INTO links
-values (default, 'https://www.google.com.ua/webhp?authuser=1', 'www.google.com.ua', 'levovit', default);
