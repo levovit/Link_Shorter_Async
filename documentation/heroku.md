@@ -42,4 +42,4 @@ And deploy branch `master`
 
 
 Now you can see your app on
-https://<Your-app-name>.herokuapp.com/
+`https://<Your-app-name>.herokuapp.com/`
