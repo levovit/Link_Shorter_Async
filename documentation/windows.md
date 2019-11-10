@@ -1,5 +1,5 @@
-## Start on Windows
-# Download python
+# Start on Windows
+## Download python
 Check if you have a python. Type `python` in the command line. There should be such a output
 ```commandline
 >python
@@ -8,7 +8,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 If you have a some Error download python for windows 
 https://www.python.org/downloads/windows/
-# Download Link Shoreter
+## Download Link Shorter
 By the same rule as above download git bash
 https://git-scm.com/download/win
 
@@ -27,7 +27,7 @@ Install the required modules
 $ pip install -r requirements.txt
 ```
 
-# Database
+## Database
 Download PostgreSQL
 https://www.postgresql.org/download/windows/
 
@@ -45,13 +45,17 @@ Create table links
 >cd <Link Shorter Path>
 >psql -d link_shorter_local -f init.sql -U postgres
 ```
-#Run
+## Run
 `-c` -local config file
+
 `--host` - Host to listen
+
 `--port` - Port to accept connection
+
 `--db` - Path to database
+
 `--debug` - Autoreload code on change
 
 ```commandline
-python entry.py -c local.yaml --db "postgresql://postgres:postgres@localhost:5432/link_shorter_local"
+python entry.py -c local.yaml --db "postgresql://postgres:postgres@localhost:5432/link_shorter_db"
 ```
