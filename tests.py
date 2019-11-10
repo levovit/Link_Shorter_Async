@@ -1,8 +1,10 @@
 import pathlib
+
 from aiohttp.client_reqrep import ClientResponse
+from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
+
 from app.app import create_app
 from app.settings import load_config
-from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
 
 BASE_DIR = pathlib.Path(__file__).parent
 

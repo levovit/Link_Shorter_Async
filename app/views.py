@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
+
 from aiohttp import web
 from aiohttp.web_request import Request
 from aiohttp_jinja2 import template
 from url_regex import UrlRegex
+
 from . import db_interaction as db
-from . utils import make_unique_link
+from .utils import make_unique_link
 
 
 @template("index.html")
@@ -22,6 +24,7 @@ async def short(request: Request):
                                 "message": "Data has no 'url' attribute"
                               }
                             }, status=415)
+
     days = 90
     if "days" in data:
         days = data["days"]
@@ -32,6 +35,7 @@ async def short(request: Request):
                     "message": "Invalid days number. Must be Integer"
                 }
             }, status=400)
+
         else:
             days = int(days)
     if not (1 <= days <= 366):
@@ -47,6 +51,7 @@ async def short(request: Request):
         short_link = await make_unique_link(request)
         await db.insert_link(request, str(url_regex.input), short_link, days, "web")
         return web.json_response({"url": short_link})
+
     else:
         return web.json_response({
                               "error": {
@@ -67,6 +72,7 @@ async def api(request: Request):
                 "message": "Invalid days number. Must be Integer"
             }
         }, status=400)
+
     else:
         days = int(days)
     active_until = datetime.utcnow() + timedelta(days)

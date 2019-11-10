@@ -1,4 +1,5 @@
 import pathlib
+
 from aiohttp import web
 from aiohttp.web_app import Application
 import aiohttp_jinja2
