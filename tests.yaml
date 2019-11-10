@@ -1,0 +1,2 @@
+site_name: "Link Shorter (tests)"
+database_uri: "postgresql://postgres:postgres@localhost:5432/link_shorter_local"

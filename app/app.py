@@ -10,9 +10,10 @@ from .routes import setup_routes
 BASE_DIR = pathlib.Path(__file__).parent.parent
 
 
-async def create_app(config: dict, db_url: str) -> Application:
+async def create_app(config: dict, db_url: str = None) -> Application:
     app = web.Application()
-    config["database_uri"] = db_url
+    if db_url:
+        config["database_uri"] = db_url
     app["config"] = config
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(BASE_DIR / 'app' / 'templates')))
 

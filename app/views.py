@@ -15,7 +15,6 @@ async def index(request: Request):
 
 async def short(request: Request):
     data = await request.json()
-    print(data)
     if "url" not in data:
         return web.json_response({
                               "error": {
@@ -45,7 +44,6 @@ async def short(request: Request):
 
     url_regex = UrlRegex(data["url"])
     if url_regex.detect:
-        print(url_regex.input)
         short_link = await make_unique_link(request)
         await db.insert_link(request, str(url_regex.input), short_link, days, "web")
         return web.json_response({"url": short_link})
@@ -59,7 +57,6 @@ async def short(request: Request):
 
 
 async def api(request: Request):
-    print(request.query)
     query = {k: v for k, v in request.query.items()}
 
     days = query.pop("days", "90")
@@ -96,7 +93,6 @@ async def api(request: Request):
         link = query[key]
         url_regex = UrlRegex(link)
         if url_regex.detect:
-            print(url_regex.input)
             short_link = await make_unique_link(request)
             await db.insert_link(request, str(url_regex.input), short_link, days, "api")
             result["links"].append(short_link)

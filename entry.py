@@ -21,7 +21,7 @@ parser.add_argument("-c", "--config", type=argparse.FileType(), help="Path to co
 
 args = parser.parse_args()
 
-app = create_app(config=load_config(args.config), db_url = args.db)
+app = create_app(config=load_config(args.config), db_url=args.db)
 
 if args.debug:
     print("Debug mode activated")
