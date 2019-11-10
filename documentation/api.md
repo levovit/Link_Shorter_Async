@@ -1,6 +1,6 @@
 # Api documentation
 
-# #Making requests
+## Making requests
 All queries to the  API must be served over HTTPS and need to be presented in this form: 
 
 `https://<host>/api?url1="<url1>"&url2="<url2>"url3="<url3>"&days=<days>`
